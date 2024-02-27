@@ -1,4 +1,3 @@
-// SensorData.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,7 +6,7 @@ const BatteryUsage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchId, setSearchId] = useState('');
-  const page_size = 2
+  const page_size = 10
   
   useEffect(() => {
     fetchData(currentPage);
@@ -52,7 +51,7 @@ const BatteryUsage = () => {
       <h4>Battery Usage records for Device ID: {searchId}</h4>
       <ul>
         {data.map((item) => (
-          <li key={item.id}><b>{(new Date(item._ts*1000)).toUTCString()}</b> | {item.device_id}</li>
+          <li key={item.id}><b>{(new Date(item._ts*1000)).toUTCString()}</b> || Battery-percentage: {item.battery_percentage}, Voltage: {item.voltage}, Temperature: {item.temperature}, Charger {item.plugged == 0 ? 'is not' : 'is'} plugged</li>
         ))}
       </ul>
       <div>

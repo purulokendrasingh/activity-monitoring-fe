@@ -1,4 +1,3 @@
-// SensorData.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,7 +5,7 @@ const AdditionalData = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const page_size = 1
+  const page_size = 10
 
   useEffect(() => {
     fetchData(currentPage);

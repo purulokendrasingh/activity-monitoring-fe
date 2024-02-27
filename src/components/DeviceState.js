@@ -1,4 +1,3 @@
-// SensorData.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,17 +5,28 @@ const DeviceState = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const page_size = 1
-
+  const [searchId, setSearchId] = useState('');
+  const page_size = 10
+  
   useEffect(() => {
     fetchData(currentPage);
   }, [currentPage]);
 
   const fetchData = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:5000/device-state/fetch-records/db4ac844e527638d?page=${page}&page_size=${page_size}`);
-      setData(response.data.records);
-      setTotalPages(Math.ceil(response.data.total_count / page_size));
+      let url = `http://localhost:5000/device-state/fetch-records/${searchId.trim()}?page=${page}&page_size=${page_size}`;
+      // if (searchId.trim() !== '') {
+      //   url += `&id=${searchId}`;
+      // }
+      const response = await axios.get(url);
+      if (response?.data?.records == [] || response.data.total_count == 0){
+        setData([]);
+        setTotalPages(1)
+      }
+      else{
+        setData(response.data.records);
+        setTotalPages(Math.ceil(response.data.total_count / page_size) );
+      }
     } catch (error) {
       console.error('Error fetching sensor data:', error);
     }
@@ -26,12 +36,22 @@ const DeviceState = () => {
     setCurrentPage(page);
   };
 
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset pagination to first page when searching
+    fetchData(1);
+  };
+
   return (
     <div>
       <h2>Device State</h2>
+      <div>
+        <input type="text" value={searchId} onChange={(e) => setSearchId(e.target.value)} placeholder="Enter Device Id" />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <h4>Device State records for Device ID: {searchId}</h4>
       <ul>
         {data.map((item) => (
-          <li key={item.id}>{item.id} | {item.device_id} | {item.battery_percentage}</li>
+          <li key={item.id}><b>{(new Date(item._ts*1000)).toUTCString()}</b> || Screen turned {item.is_screen_on ? 'ON' : 'OFF'}</li>
         ))}
       </ul>
       <div>
