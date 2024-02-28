@@ -14,7 +14,7 @@ const ConnectivityData = () => {
 
   const fetchData = async (page) => {
     try {
-      let url = `http://localhost:5000/connectivity/fetch-records/${searchId.trim()}?page=${page}&page_size=${page_size}`;
+      let url = `https://as-monitoring-app.azurewebsites.net/connectivity/fetch-records/${searchId.trim()}?page=${page}&page_size=${page_size}`;
       // if (searchId.trim() !== '') {
       //   url += `&id=${searchId}`;
       // }

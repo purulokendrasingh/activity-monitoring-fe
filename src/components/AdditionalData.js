@@ -13,7 +13,7 @@ const AdditionalData = () => {
 
   const fetchData = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:5000/additional-data/fetch-records/db4ac844e527638d?page=${page}&page_size=${page_size}`);
+      const response = await axios.get(`https://as-monitoring-app.azurewebsites.net/additional-data/fetch-records/db4ac844e527638d?page=${page}&page_size=${page_size}`);
       console.log(response)
       setData(response.data.records);
       setTotalPages(Math.ceil(response.data.total_count / page_size));

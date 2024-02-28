@@ -26,7 +26,7 @@ const SensorData = () => {
 
   const fetchData = async (page) => {
     try {
-      let url = `http://localhost:5000/sensor/fetch-records/${searchId.trim()}?page=${page}&page_size=${page_size}`;
+      let url = `https://as-monitoring-app.azurewebsites.net/sensor/fetch-records/${searchId.trim()}?page=${page}&page_size=${page_size}`;
       // if (searchId.trim() !== '') {
       //   url += `&id=${searchId}`;
       // }
